@@ -10,6 +10,8 @@ an Xbox controller.
 
 #include "client.h"
 
+#ifdef _WIN32
+
 int Gamepad::GetPort() {
 	return cId + 1;
 }
@@ -263,9 +265,13 @@ int recieveDistance(int iResult, SOCKET ConnectSocket) {
 	int recvbuflen = DEFAULT_BUFLEN;
 	iResult = recv(ConnectSocket, recvbuf, recvbuflen, 0);
 	LFspd=0,LRspd=0,RFspd=0,RRspd=0,dist=0;
-	sscanf_s(recvbuf,"%f %f %f %f %f",&LFspd,&RFspd ,&LRspd,&RRspd,&dist);
+	printf(recvbuf,"%f %f %f %f %f",
+	       &LFspd, &RFspd ,&LRspd ,&RRspd ,&dist); // TODO: Replace this with the C++ standard (ie cout).
+	std::cout << std::endl;
 	//printw("\n\nour recv buffer: %s\n", recvbuf);
 	//printw("our speeds: %f %f %f %f %f", LFspd, RFspd, LRspd, RRspd, dist);
 	//printf(" Distance from Marker: %c", recvbuf);
 	return iResult;
 }
+
+#endif

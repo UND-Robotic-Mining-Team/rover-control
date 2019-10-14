@@ -1,14 +1,22 @@
 #ifndef CLIENT_H_
 #define CLIENT_H_
-#define WIN32_LEAN_AND_MEAN
 
+#ifdef _WIN32
+#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <winsock2.h>
 #include <ws2tcpip.h>
+#include <Xinput.h>
+#elif linux
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <netinet/in.h>
+#endif
+
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string>
-#include <Xinput.h>
 #include <iostream>
 #include <curses.h>
 
@@ -20,6 +28,13 @@
 #define DEFAULT_BUFLEN 512
 #define DEFAULT_PORT "27015"
 #define DEFAULT_ADDRESS "192.168.1.2"
+
+#ifdef linux
+typedef unsigned int SOCKET; // Linux just defines SOCKET as an int, same number of bits
+typedef unsigned short WORD; // See above comment
+
+#define INVALID_SOCKET (SOCKET)(~0)
+#endif
 
 SOCKET setup(int, SOCKET);
 int sendData(int, SOCKET);
@@ -37,7 +52,9 @@ extern std::string startButton, selectButton;
 class Gamepad {
 private:
 	int cId;
-	XINPUT_STATE state;
+#ifdef _WIN32
+        XINPUT_STATE state;
+#endif
 	float deadzoneX;
 	float deadzoneY;
 
@@ -45,7 +62,9 @@ public:
 	Gamepad() : deadzoneX(0.05f), deadzoneY(0.02f) {}
 	Gamepad(float dzX, float dzY) : deadzoneX(dzX), deadzoneY(dzY) {}
 
+#ifdef _WIN32
 	XINPUT_GAMEPAD* GetState();
+#endif
 	int GetPort();
 	float leftStickX;
 	float leftStickY;

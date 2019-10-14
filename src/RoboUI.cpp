@@ -48,7 +48,7 @@ requires PDCurses libraries
 #include <unistd.h>
 */
 
-using namespace std;
+using namespace std; // TODO: This pollutes the global namespace; replace with explicit "using std::whatever" statements
 
 //define the normal colors
 #define white 15
@@ -89,7 +89,7 @@ float dist;
 
 int main(int argc, char** argv) {
 
-
+#ifdef _WIN32
 	//SOCKET ConnectSocket = INVALID_SOCKET; // instantiate the socket 
 	a = b = x = y = "0";
 	int i = 0;//loop counter
@@ -361,5 +361,7 @@ int main(int argc, char** argv) {
 	getch();//wait for a key to be pressed
 
 	endwin();//end the curses session
-
+	
+#endif
+	return 0;
 }

@@ -1,2 +1,2 @@
 # rover-control
-Nvidia Jetson code deployed to rover. As of now, the code consists of two separate projects within this repo: UI code and the code which goes onto the Arduino, and interfaces with the VEX robotics motor hardware.
+Code of unknown significance overall. May be outdated, appears to open a socket interface to communicate with and control Jetson system. Will be updated as development continues.
